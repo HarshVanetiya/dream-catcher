@@ -1,7 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 // Call Gemini API for dream interpretation
 export async function getDreamInterpretation(dreamText) {
 
@@ -9,6 +7,7 @@ export async function getDreamInterpretation(dreamText) {
     throw new Error('Server misconfigured: GEMINI_API_KEY is missing');
   }
 
+  const gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
   
   try {
