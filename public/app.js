@@ -7,12 +7,12 @@ const btnLoading = submitBtn.querySelector('.btn-loading');
 const dreamsContainer = document.getElementById('dreamsContainer');
 
 // Load dreams on page load
-document.addEventListener('DOMContentLoaded', loadDreams); 
+document.addEventListener('DOMContentLoaded', loadDreams);
 
 // Form submission
 dreamForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const dream = dreamText.value.trim();
     if (!dream) return;
 
@@ -33,21 +33,27 @@ dreamForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({ dream_text: dream }),
         });
 
+        const data = await response.json();
 
         if (!response.ok) {
-            showErrorMessage(data.error || 'Failed to process your dream. Please try again.');
+            showErrorMessage(
+                data.error || 'Failed to process your dream. Please try again.',
+            );
             return;
         }
-        
+
+        const newDream = data;
+
         // Clear form
         dreamText.value = '';
-        
+
         // Reload dreams
         await loadDreams();
-
     } catch (error) {
         console.error('Error:', error);
-        showErrorMessage('Network error. Please check your connection and try again.');
+        showErrorMessage(
+            'Network error. Please check your connection and try again.',
+        );
     } finally {
         // Re-enable form
         submitBtn.disabled = false;
@@ -68,24 +74,29 @@ async function loadDreams() {
         displayDreams(dreams);
     } catch (error) {
         console.error('Error:', error);
-        dreamsContainer.innerHTML = '<p class="error">Failed to load dreams. Please refresh the page.</p>';
+        dreamsContainer.innerHTML =
+            '<p class="error">Failed to load dreams. Please refresh the page.</p>';
     }
 }
 
 // Display dreams in the DOM
 function displayDreams(dreams) {
     if (dreams.length === 0) {
-        dreamsContainer.innerHTML = '<p class="empty">No dreams yet. Start by recording your first dream!</p>';
+        dreamsContainer.innerHTML =
+            '<p class="empty">No dreams yet. Start by recording your first dream!</p>';
         return;
     }
 
-    dreamsContainer.innerHTML = dreams.map(dream => {
-        const interpretation = escapeHtml(dream.interpretation);
-        const truncationLength = 300;
-        const shouldTruncate = interpretation.length > truncationLength;
-        const truncatedInterpretation = shouldTruncate ? interpretation.substring(0, truncationLength) + '...' : interpretation;
+    dreamsContainer.innerHTML = dreams
+        .map((dream) => {
+            const interpretation = escapeHtml(dream.interpretation);
+            const truncationLength = 300;
+            const shouldTruncate = interpretation.length > truncationLength;
+            const truncatedInterpretation = shouldTruncate
+                ? interpretation.substring(0, truncationLength) + '...'
+                : interpretation;
 
-        return `
+            return `
         <div class="dream-card" data-id="${dream.id}">
             <div class="dream-header">
                 <span class="dream-date">${formatDate(dream.created_at)}</span>
@@ -103,14 +114,15 @@ function displayDreams(dreams) {
             </div>
         </div>
     `;
-    }).join('');
+        })
+        .join('');
 
-    dreamsContainer.querySelectorAll('.delete-btn').forEach(btn => {
+    dreamsContainer.querySelectorAll('.delete-btn').forEach((btn) => {
         const card = btn.closest('.dream-card');
         btn.addEventListener('click', () => deleteDream(card.dataset.id));
     });
 
-    dreamsContainer.querySelectorAll('.read-more-btn').forEach(btn => {
+    dreamsContainer.querySelectorAll('.read-more-btn').forEach((btn) => {
         btn.addEventListener('click', toggleInterpretation);
     });
 }
@@ -129,13 +141,13 @@ async function deleteDream(id) {
         if (!response.ok) {
             throw new Error('Failed to delete dream');
         }
-        
+
         await loadDreams();
     } catch (error) {
         console.error('Error:', error);
     }
 }
- 
+
 // Format date
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -144,7 +156,7 @@ function formatDate(dateString) {
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
     });
 }
 
@@ -161,7 +173,7 @@ function toggleInterpretation(event) {
     const btn = event.target;
     const interpretationDiv = btn.previousElementSibling;
     const isExpanded = interpretationDiv.dataset.expanded === 'true';
-    
+
     if (isExpanded) {
         interpretationDiv.textContent = interpretationDiv.dataset.truncated;
         interpretationDiv.dataset.expanded = 'false';
@@ -175,7 +187,8 @@ function toggleInterpretation(event) {
 
 // Show error message to user
 function showErrorMessage(message) {
-    const errorContainer = document.getElementById('errorContainer') || createErrorContainer();
+    const errorContainer =
+        document.getElementById('errorContainer') || createErrorContainer();
     errorContainer.innerHTML = `
         <div class="error-alert">
             <strong>⚠️ Error:</strong> ${escapeHtml(message)}
@@ -183,7 +196,9 @@ function showErrorMessage(message) {
         </div>
     `;
     errorContainer.style.display = 'block';
-    errorContainer.querySelector('.close-error').addEventListener('click', clearErrorMessage);
+    errorContainer
+        .querySelector('.close-error')
+        .addEventListener('click', clearErrorMessage);
 }
 
 // Clear error message

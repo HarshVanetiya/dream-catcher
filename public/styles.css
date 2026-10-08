@@ -5,9 +5,15 @@
 }
 
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes fadeInUp {
@@ -22,12 +28,17 @@
 }
 
 @keyframes glow {
-    0%, 100% { text-shadow: 0 0 10px rgba(102, 126, 234, 0.5); }
-    50% { text-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+    0%,
+    100% {
+        text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+    }
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
@@ -70,7 +81,8 @@ header h1 {
     letter-spacing: 0.5px;
 }
 
-.add-dream, .dreams-list {
+.add-dream,
+.dreams-list {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 5px;
     padding: 30px;
@@ -140,7 +152,12 @@ button::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
     transition: left 0.5s;
 }
 
@@ -259,7 +276,8 @@ button:disabled {
     transform: scale(0.98);
 }
 
-.loading, .empty {
+.loading,
+.empty {
     text-align: center;
     color: #718096;
     padding: 40px;
@@ -344,7 +362,8 @@ button:disabled {
         font-size: 1rem;
     }
 
-    .add-dream, .dreams-list {
+    .add-dream,
+    .dreams-list {
         padding: 20px;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -425,15 +444,16 @@ button:disabled {
         margin-top: 8px;
     }
 
-    .loading, .empty {
+    .loading,
+    .empty {
         padding: 30px 15px;
         font-size: 1rem;
     }
 
-    .error-alert{
+    .error-alert {
         display: flex;
         flex-direction: column;
-        gap: .5em;
+        gap: 0.5em;
         text-align: center;
     }
 }
@@ -456,7 +476,8 @@ footer {
         font-size: 0.9rem;
     }
 
-    .add-dream, .dreams-list {
+    .add-dream,
+    .dreams-list {
         padding: 15px;
         margin-bottom: 15px;
     }
@@ -499,7 +520,8 @@ footer {
         font-size: 0.9rem;
     }
 
-    .loading, .empty {
+    .loading,
+    .empty {
         padding: 20px 10px;
     }
 }
